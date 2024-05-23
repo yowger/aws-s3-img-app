@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import express from "express"
 
 import corsOptions from "@/config/cors"
+import postRouter from "./routes/post"
 
 dotenv.config({ path: ".env" })
 
@@ -20,5 +21,10 @@ app.use(
     express.urlencoded({ limit: "5mb", extended: true, parameterLimit: 50000 })
 )
 app.use(compression())
+
+app.use("/api/post", postRouter)
+app.use((req, res, next) => {
+    res.status(404).json({ message: "URL not found" })
+})
 
 export default app
