@@ -10,5 +10,5 @@ const postRouter = express.Router()
 postRouter
     .route("/")
     .post(singleMemoryUpload, asyncHandler(postController.create))
-
+    
 export default postRouter
