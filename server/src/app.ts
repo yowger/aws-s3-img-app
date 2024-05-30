@@ -1,13 +1,11 @@
 import cors from "cors"
 import compression from "compression"
 import cookieParser from "cookie-parser"
-import dotenv from "dotenv"
+
 import express from "express"
 
 import corsOptions from "@/config/cors"
-import postRouter from "./routes/post"
-
-dotenv.config({ path: ".env" })
+import postRouter from "@/routes/post"
 
 process.on("uncaughtException", (error) => {
     console.log("uncaughtException error: ", error)

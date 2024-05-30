@@ -3,10 +3,11 @@ import "module-alias/register"
 import mongoose from "mongoose"
 
 import app from "./app"
+import env from "./config/env"
 
 import type { Error as MongoError } from "mongoose"
 
-mongoose.connect(process.env.DATABASE)
+mongoose.connect(env.DATABASE)
 mongoose.connection.on("connected", () => {
     console.log("Mongoose default connection open")
 })
