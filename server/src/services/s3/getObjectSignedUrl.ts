@@ -8,10 +8,12 @@ import type { GetObjectCommandInput } from "@aws-sdk/client-s3"
 type ObjectDataType = {
     bucketName: string
     key: string
+    expiresInSeconds?: number
 } & Omit<GetObjectCommandInput, "Bucket" | "Key">
 export async function getObjectSignedUrl({
     bucketName,
     key,
+    expiresInSeconds = 60,
     ...otherMetadata
 }: ObjectDataType) {
     const getCommandInput: GetObjectCommandInput = {
@@ -22,7 +24,6 @@ export async function getObjectSignedUrl({
 
     try {
         const command = new GetObjectCommand(getCommandInput)
-        const expiresInSeconds = 60
         const url = await getSignedUrl(s3Client, command, {
             expiresIn: expiresInSeconds,
         })
