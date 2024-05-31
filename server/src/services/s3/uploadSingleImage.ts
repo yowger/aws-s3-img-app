@@ -1,21 +1,23 @@
 import s3Client from "@/config/aws/s3"
-import { PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3"
+import { PutObjectCommand } from "@aws-sdk/client-s3"
+
+import type { PutObjectCommandInput } from "@aws-sdk/client-s3"
 
 type UploadFileType = {
-    bucket: string
+    bucketName: string
     fileBuffer: Uint8Array
     fileName: string
     mimeType: string
 } & Omit<PutObjectCommandInput, "Bucket" | "Key" | "Body" | "ContentType">
-
-export async function uploadSingleImage(
-    uploadData: UploadFileType
-): Promise<void> {
-    const { bucket, fileBuffer, fileName, mimeType, ...otherMetadata } =
-        uploadData
-
-    const putObjectCommandInput: PutObjectCommandInput = {
-        Bucket: bucket,
+export async function uploadSingleImage({
+    bucketName,
+    fileBuffer,
+    fileName,
+    mimeType,
+    ...otherMetadata
+}: UploadFileType): Promise<void> {
+    const params: PutObjectCommandInput = {
+        Bucket: bucketName,
         Body: fileBuffer,
         Key: fileName,
         ContentType: mimeType,
@@ -23,8 +25,8 @@ export async function uploadSingleImage(
     }
 
     try {
-        await s3Client.send(new PutObjectCommand(putObjectCommandInput))
-        console.log(`File uploaded successfully to ${bucket}/${fileName}`)
+        await s3Client.send(new PutObjectCommand(params))
+        console.log(`File uploaded successfully to ${bucketName}/${fileName}`)
     } catch (error) {
         console.error(`Error uploading file: ${error}`)
         throw error

@@ -24,7 +24,7 @@ const create = async (req: Request, res: Response) => {
         .toBuffer()
 
     await uploadSingleImage({
-        bucket: env.AWS_BUCKET_NAME,
+        bucketName: env.AWS_BUCKET_NAME,
         fileBuffer,
         fileName: file.originalname,
         mimeType: file.mimetype,
