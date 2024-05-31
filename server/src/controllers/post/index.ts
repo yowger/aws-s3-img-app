@@ -1,10 +1,10 @@
 import create from "./create"
-import read from "./read"
+import paginatedList from "./paginatedList"
 import remove from "./remove"
 
 const postController = {
     create,
-    read,
+    paginatedList,
     remove,
 }
 

@@ -14,14 +14,14 @@ export async function getObjectSignedUrl({
     key,
     ...otherMetadata
 }: ObjectDataType) {
-    const params: GetObjectCommandInput = {
+    const getCommandInput: GetObjectCommandInput = {
         Bucket: bucketName,
         Key: key,
         ...otherMetadata,
     }
 
     try {
-        const command = new GetObjectCommand(params)
+        const command = new GetObjectCommand(getCommandInput)
         const expiresInSeconds = 60
         const url = await getSignedUrl(s3Client, command, {
             expiresIn: expiresInSeconds,

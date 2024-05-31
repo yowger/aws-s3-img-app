@@ -13,14 +13,14 @@ export async function deleteFile({
     fileName,
     ...otherMetadata
 }: ObjectDataType) {
-    const deleteParams: DeleteObjectCommandInput = {
+    const deleteCommandInput: DeleteObjectCommandInput = {
         Bucket: bucketName,
         Key: fileName,
         ...otherMetadata,
     }
 
     try {
-        await s3Client.send(new DeleteObjectCommand(deleteParams))
+        await s3Client.send(new DeleteObjectCommand(deleteCommandInput))
     } catch (error) {
         console.error("Error deleting file:", error)
         throw error

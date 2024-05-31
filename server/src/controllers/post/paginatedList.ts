@@ -6,7 +6,7 @@ import { getObjectSignedUrl } from "@/services/s3/getObjectSignedUrl"
 
 import type { Response, Request } from "express"
 
-const read = async (req: Request, res: Response) => {
+const paginatedList = async (req: Request, res: Response) => {
     const { page = 1, limit = 10 } = req.query
 
     const pageNumber = parseInt(page as string, 10)
@@ -35,4 +35,4 @@ const read = async (req: Request, res: Response) => {
     })
 }
 
-export default read
+export default paginatedList

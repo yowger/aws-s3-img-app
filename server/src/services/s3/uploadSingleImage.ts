@@ -16,7 +16,7 @@ export async function uploadSingleImage({
     mimeType,
     ...otherMetadata
 }: UploadFileType): Promise<void> {
-    const params: PutObjectCommandInput = {
+    const uploadCommandInput: PutObjectCommandInput = {
         Bucket: bucketName,
         Body: fileBuffer,
         Key: fileName,
@@ -25,7 +25,7 @@ export async function uploadSingleImage({
     }
 
     try {
-        await s3Client.send(new PutObjectCommand(params))
+        await s3Client.send(new PutObjectCommand(uploadCommandInput))
         console.log(`File uploaded successfully to ${bucketName}/${fileName}`)
     } catch (error) {
         console.error(`Error uploading file: ${error}`)
