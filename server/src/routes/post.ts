@@ -11,5 +11,6 @@ postRouter
     .route("/")
     .post(singleMemoryUpload, asyncHandler(postController.create))
 postRouter.route("/").get(asyncHandler(postController.read))
+postRouter.route("/:postId").delete(asyncHandler(postController.remove))
 
 export default postRouter

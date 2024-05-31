@@ -14,7 +14,7 @@ const read = async (req: Request, res: Response) => {
     const skip = (pageNumber - 1) * limitNumber
 
     const posts = await PostModel.find()
-        .select("title image description createdAt -_id")
+        .select("_id title image description createdAt")
         .skip(skip)
         .limit(limitNumber)
         .exec()

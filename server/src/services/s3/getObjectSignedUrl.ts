@@ -3,18 +3,18 @@ import s3Client from "@/config/aws/s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { GetObjectCommand } from "@aws-sdk/client-s3"
 
-import type { PutObjectCommandInput } from "@aws-sdk/client-s3"
+import type { GetObjectCommandInput } from "@aws-sdk/client-s3"
 
 type ObjectDataType = {
     bucketName: string
     key: string
-} & Omit<PutObjectCommandInput, "Bucket" | "Key">
+} & Omit<GetObjectCommandInput, "Bucket" | "Key">
 export async function getObjectSignedUrl({
     bucketName,
     key,
     ...otherMetadata
 }: ObjectDataType) {
-    const params: PutObjectCommandInput = {
+    const params: GetObjectCommandInput = {
         Bucket: bucketName,
         Key: key,
         ...otherMetadata,
