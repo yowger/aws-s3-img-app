@@ -1,24 +1,32 @@
 import s3Client from "@/config/aws/s3"
-
 import { PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3"
 
-// might change to class
-interface UploadFileType {
+type UploadFileType = {
+    bucket: string
     fileBuffer: Uint8Array
     fileName: string
-    mimetype: string
-}
-export function uploadSingleImage({
-    fileBuffer,
-    fileName,
-    mimetype,
-}: UploadFileType) {
-    const uploadParams: PutObjectCommandInput = {
-        Bucket: process.env.AWS_BUCKET_NAME,
+    mimeType: string
+} & Omit<PutObjectCommandInput, "Bucket" | "Key" | "Body" | "ContentType">
+
+export async function uploadSingleImage(
+    uploadData: UploadFileType
+): Promise<void> {
+    const { bucket, fileBuffer, fileName, mimeType, ...otherMetadata } =
+        uploadData
+
+    const putObjectCommandInput: PutObjectCommandInput = {
+        Bucket: bucket,
         Body: fileBuffer,
         Key: fileName,
-        ContentType: mimetype,
+        ContentType: mimeType,
+        ...otherMetadata,
     }
 
-    return s3Client.send(new PutObjectCommand(uploadParams))
+    try {
+        await s3Client.send(new PutObjectCommand(putObjectCommandInput))
+        console.log(`File uploaded successfully to ${bucket}/${fileName}`)
+    } catch (error) {
+        console.error(`Error uploading file: ${error}`)
+        throw error
+    }
 }

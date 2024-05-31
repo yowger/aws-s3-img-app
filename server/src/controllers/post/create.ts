@@ -1,5 +1,7 @@
 import sharp from "sharp"
 
+import env from "@/config/env"
+
 import PostModel from "@/models/Post"
 
 import { uploadSingleImage } from "@/services/s3/uploadSingleImage"
@@ -22,10 +24,13 @@ const create = async (req: Request, res: Response) => {
         .toBuffer()
 
     await uploadSingleImage({
+        bucket: env.AWS_BUCKET_NAME,
         fileBuffer,
-        // todo - change to randomize name or or shorten name + date later
         fileName: file.originalname,
-        mimetype: file.mimetype,
+        mimeType: file.mimetype,
+    }).catch((error) => {
+        console.log("error uploading file", error)
+        return res.status(500).json({ message: "Failed to upload image" })
     })
 
     const post = new PostModel({
