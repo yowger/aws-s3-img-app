@@ -7,14 +7,22 @@ import { getObjectSignedUrl } from "@/services/s3/getObjectSignedUrl"
 import type { Response, Request } from "express"
 
 const paginatedList = async (req: Request, res: Response) => {
-    const { page = 1, limit = 10 } = req.query
+    const {
+        page = 1,
+        limit = 10,
+        sort = "createdAt",
+        order = "desc",
+    } = req.query
 
     const pageNumber = parseInt(page as string, 10)
     const limitNumber = parseInt(limit as string, 10)
     const skip = (pageNumber - 1) * limitNumber
+    const sortField = sort as string
+    const sortOrder = order === "asc" ? 1 : -1
 
     const posts = await PostModel.find()
         .select("_id title image description createdAt")
+        .sort({ [sortField]: sortOrder })
         .skip(skip)
         .limit(limitNumber)
         .exec()

@@ -9,10 +9,10 @@ import { uploadSingleImage } from "@/services/s3/uploadSingleImage"
 import type { Response, Request } from "express"
 
 const create = async (req: Request, res: Response) => {
-    const { title, content, author } = req.body
+    const { title, description, author } = req.body
     const file = req.file
 
-    if (!title || !content || !author) {
+    if (!title || !description || !author) {
         return res
             .status(400)
             .json({ message: "Title, content, and author are required" })
@@ -35,7 +35,7 @@ const create = async (req: Request, res: Response) => {
 
     const post = new PostModel({
         title,
-        content,
+        description,
         author,
         image: file.originalname,
     })
