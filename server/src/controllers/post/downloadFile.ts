@@ -2,14 +2,14 @@ import { Readable } from "stream"
 
 import env from "@/config/env"
 
-import { sendGetObjectCommand } from "@/services/s3/sendGetObjectCommand"
+import { executeGetObjectCommand } from "@/services/s3/executeGetObjectCommand"
 
 import type { Response, Request } from "express"
 
 const downloadFile = async (req: Request, res: Response) => {
     const { fileName } = req.params
 
-    const data = await sendGetObjectCommand({
+    const data = await executeGetObjectCommand({
         bucketName: env.AWS_BUCKET_NAME,
         key: fileName,
     })

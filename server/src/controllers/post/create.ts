@@ -4,7 +4,11 @@ import env from "@/config/env"
 
 import PostModel from "@/models/Post"
 
-import { uploadSingleImage } from "@/services/s3/uploadSingleImage"
+import { executeUploadImage } from "@/services/s3/executeUploadImage"
+
+import generateRandomKey from "@/utils/generateRandomFileName"
+import reduceImageQuality from "@/utils/sharp/reduceImageQuality"
+import getImageInfo from "@/utils/sharp/getImageInfo"
 
 import type { Response, Request } from "express"
 
@@ -12,22 +16,16 @@ const create = async (req: Request, res: Response) => {
     const { title, description, author } = req.body
     const file = req.file
 
-    if (!title || !description || !author) {
-        return res
-            .status(400)
-            .json({ message: "Title, content, and author are required" })
-    }
+    const imageBuffer = await reduceImageQuality(file.buffer)
+    const { format, mimeType } = await getImageInfo(imageBuffer)
 
-    const fileBuffer = await sharp(file.buffer)
-        .resize(400)
-        .jpeg({ quality: 75 })
-        .toBuffer()
+    const fileName = generateRandomKey(5, format)
 
-    await uploadSingleImage({
+    await executeUploadImage({
         bucketName: env.AWS_BUCKET_NAME,
-        fileBuffer,
-        fileName: file.originalname,
-        mimeType: file.mimetype,
+        imageBuffer,
+        fileName,
+        mimeType: mimeType,
     }).catch((error) => {
         console.log("error uploading file", error)
         return res.status(500).json({ message: "Failed to upload image" })
@@ -37,7 +35,7 @@ const create = async (req: Request, res: Response) => {
         title,
         description,
         author,
-        image: file.originalname,
+        imageName: fileName,
     })
 
     await post.save()

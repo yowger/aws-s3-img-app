@@ -20,7 +20,7 @@ export async function createGetObjectCommand({
     try {
         return new GetObjectCommand(getCommandInput)
     } catch (error) {
-        console.error(`Error get object command : ${error}`)
+        console.error(`Error creating get object command : ${error}`)
         throw error
     }
 }

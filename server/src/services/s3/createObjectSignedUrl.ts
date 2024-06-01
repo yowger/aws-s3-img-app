@@ -15,17 +15,18 @@ export async function createObjectSignedUrl({
     expiresInSeconds = 60,
     ...otherMetadata
 }: CreateObjectSignedUrl): Promise<string> {
+    const getObjectCommand = await createGetObjectCommand({
+        bucketName,
+        key,
+        ...otherMetadata,
+    })
+
     try {
-        const command = await createGetObjectCommand({
-            bucketName,
-            key,
-            ...otherMetadata,
-        })
-        return await getSignedUrl(s3Client, command, {
+        return await getSignedUrl(s3Client, getObjectCommand, {
             expiresIn: expiresInSeconds,
         })
     } catch (error) {
         console.error(`Error creating signed url: ${error}`)
-        throw error
+        return null
     }
 }

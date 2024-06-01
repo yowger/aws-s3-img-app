@@ -21,22 +21,29 @@ const paginatedList = async (req: Request, res: Response) => {
     const sortOrder = order === "asc" ? 1 : -1
 
     const posts = await PostModel.find()
-        .select("_id title image description createdAt")
+        .select("_id title imageName description createdAt")
         .sort({ [sortField]: sortOrder })
         .skip(skip)
         .limit(limitNumber)
+        .lean()
         .exec()
-    for (let post of posts) {
-        post.image = await createObjectSignedUrl({
-            bucketName: env.AWS_BUCKET_NAME,
-            key: post.image,
+
+    const postsWithSignedUrls = await Promise.all(
+        posts.map(async (post) => {
+            const signedImageUrl = await createObjectSignedUrl({
+                bucketName: env.AWS_BUCKET_NAME,
+                key: post.imageName,
+            })
+
+            return { ...post, signedImageUrl }
         })
-    }
+    )
+
     const totalPosts = await PostModel.countDocuments().exec()
     const totalPages = Math.ceil(totalPosts / limitNumber)
 
     return res.status(200).json({
-        posts,
+        posts: postsWithSignedUrls,
         currentPage: pageNumber,
         totalPages,
         totalPosts,

@@ -1,28 +1,26 @@
-import s3Client from "@/config/aws/s3"
-
 import { DeleteObjectCommand } from "@aws-sdk/client-s3"
 
 import type { DeleteObjectCommandInput } from "@aws-sdk/client-s3"
 
-type ObjectDataType = {
+type CreateDeleteObjectCommand = {
     bucketName: string
-    fileName: string
+    key: string
 } & Omit<DeleteObjectCommandInput, "Bucket" | "Key">
-export async function deleteObject({
+export async function createDeleteObjectCommand({
     bucketName,
-    fileName,
+    key,
     ...otherMetadata
-}: ObjectDataType): Promise<void> {
+}: CreateDeleteObjectCommand) {
     const deleteCommandInput: DeleteObjectCommandInput = {
         Bucket: bucketName,
-        Key: fileName,
+        Key: key,
         ...otherMetadata,
     }
 
     try {
-        await s3Client.send(new DeleteObjectCommand(deleteCommandInput))
+        return new DeleteObjectCommand(deleteCommandInput)
     } catch (error) {
-        console.error("Error deleting file:", error)
+        console.error("Error creating delete object command:", error)
         throw error
     }
 }

@@ -5,8 +5,8 @@ import type { Types } from "mongoose"
 export interface Post {
     _id: Types.ObjectId
     title: string
-    description: string
-    image: string
+    description?: string
+    imageName: string
     createdAt?: Date
     updatedAt?: Date
 }
@@ -19,7 +19,7 @@ const schema = new Schema<Post>({
     description: {
         type: String,
     },
-    image: {
+    imageName: {
         type: String,
         required: true,
     },

@@ -10,19 +10,22 @@ const read = async (req: Request, res: Response) => {
     const { postId } = req.params
 
     const post = await PostModel.findById(postId)
-        .select("_id title image description createdAt")
+        .select("_id title imageName description createdAt")
+        .lean()
         .exec()
 
     if (!post) {
         return res.status(404).json({ message: "Post not found" })
     }
 
-    post.image = await createObjectSignedUrl({
+    const signedImageUrl = await createObjectSignedUrl({
         bucketName: env.AWS_BUCKET_NAME,
-        key: post.image,
+        key: post.imageName,
     })
 
-    return res.status(200).json(post)
+    const postWithSignedUrls = { ...post, signedImageUrl }
+
+    return res.status(200).json(postWithSignedUrls)
 }
 
 export default read
