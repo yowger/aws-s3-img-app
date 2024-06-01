@@ -2,7 +2,7 @@ import env from "@/config/env"
 
 import PostModel from "@/models/Post"
 
-import { getObjectSignedUrl } from "@/services/s3/getObjectSignedUrl"
+import { createObjectSignedUrl } from "@/services/s3/createObjectSignedUrl"
 
 import type { Response, Request } from "express"
 
@@ -27,7 +27,7 @@ const paginatedList = async (req: Request, res: Response) => {
         .limit(limitNumber)
         .exec()
     for (let post of posts) {
-        post.image = await getObjectSignedUrl({
+        post.image = await createObjectSignedUrl({
             bucketName: env.AWS_BUCKET_NAME,
             key: post.image,
         })

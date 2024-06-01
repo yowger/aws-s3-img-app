@@ -13,5 +13,8 @@ postRouter
 postRouter.route("/").get(asyncHandler(postController.paginatedList))
 postRouter.route("/:postId").get(asyncHandler(postController.read))
 postRouter.route("/:postId").delete(asyncHandler(postController.remove))
+postRouter
+    .route("/download/:fileName")
+    .get(asyncHandler(postController.downloadFile))
 
 export default postRouter

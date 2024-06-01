@@ -2,7 +2,7 @@ import env from "@/config/env"
 
 import PostModel from "@/models/Post"
 
-import { deleteFile } from "@/services/s3/deleteFile"
+import { deleteObject } from "@/services/s3/deleteObject"
 
 import type { Response, Request } from "express"
 
@@ -15,7 +15,7 @@ const remove = async (req: Request, res: Response) => {
         return res.status(404).send("Post not found")
     }
 
-    await deleteFile({
+    await deleteObject({
         bucketName: env.AWS_BUCKET_NAME,
         fileName: deletedPost.image,
     }).catch((error) => {
