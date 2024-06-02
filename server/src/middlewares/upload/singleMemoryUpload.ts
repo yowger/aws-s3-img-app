@@ -12,11 +12,11 @@ const imageFileFilter = (
 ) => {
     const allowedTypes = ["image/jpeg", "image/png", "image/webp"]
 
-    if (allowedTypes.includes(file.mimetype)) {
-        cb(null, true)
-    } else {
-        cb(new Error("Invalid file type. Only image files are allowed."))
+    if (!allowedTypes.includes(file.mimetype)) {
+        cb(new Error("Invalid file type. Only jpeg, png and webp are allowed."))
     }
+
+    cb(null, true)
 }
 
 const uploadSizeLimitInMb = 5 * 1024 * 1024 // 5mb
