@@ -48,21 +48,21 @@ fetch(`http://localhost:8000/api/post`, {
 | createdAt   | string  | Date and time when post was created.      |
 | updatedAt   | string  | Date and time when post was last updated. |
 
-### Success Responses 
+### Success Responses
 
 -   **Status Code:** 201 Created
 -   **Response Body:**
-```json
-{
-    "_id": 1,
-    "title": "My Post title",
-    "description": "My Post Description",
-    "imageName": "example.jpg",
-    "imageName": "John doe",
-    "createdAt": "2025-01-01T12:00:00Z",
-    "updatedAt": "2025-01-01T12:00:00Z"
-}
-```
+    ```json
+    {
+        "_id": 1,
+        "title": "My Post title",
+        "description": "My Post Description",
+        "imageName": "example.jpg",
+        "imageName": "John doe",
+        "createdAt": "2025-01-01T12:00:00Z",
+        "updatedAt": "2025-01-01T12:00:00Z"
+    }
+    ```
 
 ### Error Responses
 
