@@ -55,10 +55,12 @@ fetch(`http://localhost:8000/api/post`, {
 ```json
 {
     "_id": 1,
+    "title": "My Post title",
     "description": "My Post Description",
     "imageName": "example.jpg",
-    "createdAt": "2022-01-01T12:00:00Z",
-    "updatedAt": "2022-01-01T12:00:00Z"
+    "imageName": "John doe",
+    "createdAt": "2025-01-01T12:00:00Z",
+    "updatedAt": "2025-01-01T12:00:00Z"
 }
 ```
 
