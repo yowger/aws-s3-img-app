@@ -3,7 +3,6 @@ import express from "express"
 import postController from "@/controllers/post"
 
 import asyncHandler from "@/middlewares/handler/asyncHandler"
-import singleMemoryUpload from "@/middlewares/upload/singleMemoryUpload"
 import uploadMiddleware from "@/middlewares/upload/uploadMiddlware"
 
 const postRouter = express.Router()

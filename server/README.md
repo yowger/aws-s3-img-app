@@ -92,7 +92,7 @@ fetch(`http://localhost:8000/api/post`, {
 -   **Response Body:**
     ```json
     {
-        "error": "Unauthorized. Please provide a valid authorization token."
+        "error": "Unauthorized access."
     }
     ```
 
