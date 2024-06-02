@@ -48,8 +48,10 @@ fetch(`http://localhost:8000/api/post`, {
 | createdAt   | string  | Date and time when post was created.      |
 | updatedAt   | string  | Date and time when post was last updated. |
 
-### _Example Response (Status: 201 Created)_
+### Success Responses 
 
+-   **Status Code:** 201 Created
+-   **Response Body:**
 ```json
 {
     "_id": 1,
