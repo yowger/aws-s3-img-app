@@ -1,5 +1,3 @@
-import sharp from "sharp"
-
 import env from "@/config/env"
 
 import PostModel from "@/models/Post"

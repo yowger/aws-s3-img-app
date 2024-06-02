@@ -5,7 +5,6 @@ export default async function reduceImageQuality(
     quality?: number
 ): Promise<Buffer> {
     const metadata = await sharp(inputBuffer).metadata()
-    let outputBuffer: Buffer
 
     type FormatHandlers = {
         [key: string]: (buffer: Buffer) => Promise<Buffer>
