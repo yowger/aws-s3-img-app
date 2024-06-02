@@ -58,7 +58,7 @@ fetch(`http://localhost:8000/api/post`, {
         "title": "My Post title",
         "description": "My Post Description",
         "imageName": "example.jpg",
-        "imageName": "John doe",
+        "author": "John doe",
         "createdAt": "2025-01-01T12:00:00Z",
         "updatedAt": "2025-01-01T12:00:00Z"
     }
