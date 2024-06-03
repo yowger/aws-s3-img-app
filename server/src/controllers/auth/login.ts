@@ -14,10 +14,10 @@ const login = async (req: Request, res: Response) => {
         return res.status(401).json({ error: "Invalid credentials" })
     }
 
-    const refreshToken = jwt.sign({ username }, env.ACCESS_TOKEN_SECRET, {
+    const refreshToken = jwt.sign({ userId: "123" }, env.REFRESH_TOKEN_SECRET, {
         expiresIn: "24h",
     })
-    const accessToken = jwt.sign({ username }, env.ACCESS_TOKEN_SECRET, {
+    const accessToken = jwt.sign({ userId: "123" }, env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1h",
     })
     const cookieExpInMs = 24 * 60 * 60 * 1000 // 24 hours

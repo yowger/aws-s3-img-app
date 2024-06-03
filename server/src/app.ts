@@ -4,8 +4,10 @@ import cookieParser from "cookie-parser"
 
 import express from "express"
 
-import corsOptions from "@/config/cors"
 import postRouter from "@/routes/post"
+import authRouter from "@/routes/auth"
+
+import corsOptions from "@/config/cors"
 
 process.on("uncaughtException", (error) => {
     console.log("uncaughtException error: ", error)
@@ -20,6 +22,7 @@ app.use(
 )
 app.use(compression())
 
+app.use("/api", authRouter)
 app.use("/api/post", postRouter)
 app.use((req, res, next) => {
     res.status(404).json({ message: "API URL not found" })

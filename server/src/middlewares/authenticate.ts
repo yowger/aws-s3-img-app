@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken"
 
 import type { Response, NextFunction } from "express"
 
+import env from "@/config/env"
+
 import type { ProtectedRequest } from "@/types/appRequest"
 import type { UserIdJwtPayload } from "@/types/jwt"
 
@@ -21,15 +23,15 @@ const authenticate = async (
         const token = req.headers.authorization.split(" ")[1]
 
         try {
-            const decoded = <UserIdJwtPayload>jwt.verify(token, "secret")
+            const decodedToken = <UserIdJwtPayload>(
+                jwt.verify(token, env.ACCESS_TOKEN_SECRET)
+            )
 
-            req.user.id = decoded.userId
+            req.userId = decodedToken.userId
         } catch (error) {
-            return res
-                .status(401)
-                .json({
-                    message: "Invalid or expired token. Unauthorized access.",
-                })
+            return res.status(401).json({
+                message: "Invalid or expired token. Unauthorized access.",
+            })
         }
 
         next()
