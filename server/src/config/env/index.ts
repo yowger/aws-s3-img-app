@@ -10,6 +10,10 @@ const envSchema = z.object({
     AWS_REGION: z.string().trim().min(1),
     AWS_ACCESS_KEY_ID: z.string().trim().min(1),
     AWS_SECRET_ACCESS_KEY: z.string().trim().min(1),
+    ACCESS_TOKEN_SECRET: z.string().trim().min(1),
+    REFRESH_TOKEN_SECRET: z.string().trim().min(1),
+    USER_NAME: z.string().trim().min(1),
+    PASSWORD: z.string().trim().min(1),
 })
 
 const env = envSchema.parse(process.env)
