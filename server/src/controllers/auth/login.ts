@@ -22,8 +22,11 @@ const login = async (req: Request, res: Response) => {
     })
     const cookieExpInMs = 24 * 60 * 60 * 1000 // 24 hours
     res.cookie("refresh_token", refreshToken, {
-        httpOnly: true,
-        secure: true,
+        // httpOnly: true,
+        // secure: true,
+        // false for testing thunder client testing
+        httpOnly: false,
+        secure: false,
         sameSite: "none",
         maxAge: cookieExpInMs,
     })
